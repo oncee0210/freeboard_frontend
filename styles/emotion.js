@@ -34,7 +34,7 @@ export const Group = styled.div`
   margin-top: ${props => (props.mt ? props.mt+'px' : '0')};
 `
 
-export const Label = styled.label`
+export const Label = styled.div`
   display: block;
   margin-bottom: 16px;
   font-size: 16px;
@@ -137,4 +137,10 @@ export const SubmitButton = styled.button`
   background-color: #FFD600;
   box-sizing: border-box;
   font-family: 'Noto Sans CJK KR', sans-serif;
+`;
+
+export const Error = styled.div`
+  padding-top: 10px;
+  font-size: 14px;
+  color: red;
 `;
