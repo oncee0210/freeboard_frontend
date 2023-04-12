@@ -17,6 +17,15 @@ import {
   SubmitButton,
   Error
 } from '../../../styles/emotion'
+import { gql, useMutation } from '@apollo/client'
+
+const CREATE_BOARD = gql`
+  mutation createBoard($createBoardInput: CreateBoardInput!){
+    createBoard(createBoardInput: $createBoardInput){
+      _id
+    }
+  }
+`
 
 export default function BoardNewPage() {
   const [writer, setWriter] = useState("");
@@ -29,6 +38,8 @@ export default function BoardNewPage() {
   const [titleError, setTitleError] = useState("");
   const [contentsError, setContentsError] = useState("");
 
+  const [createBoard] = useMutation(CREATE_BOARD)
+
   const onChangeWriter = (event) => {
     setWriter(event.target.value)
     if(event.target.value !== ""){
@@ -36,25 +47,25 @@ export default function BoardNewPage() {
     }
   }
   const onChangePassword = (event) => {
-    setWriter(event.target.value)
+    setPassword(event.target.value)
     if(event.target.value !== ""){
       setPasswordError("")
     }
   }
   const onChangeTitle = (event) => {
-    setWriter(event.target.value)
+    setTitle(event.target.value)
     if(event.target.value !== ""){
       setTitleError("")
     }
   }
   const onChangeContents = (event) => {
-    setWriter(event.target.value)
+    setContents(event.target.value)
     if(event.target.value !== ""){
       setContentsError("")
     }
   }
 
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if(!writer){
       setWriterError("작성자를 입력해주세요");
     }
@@ -68,7 +79,24 @@ export default function BoardNewPage() {
       setContentsError("내용을 입력해주세요");
     }
     if(writer && password && title && contents){
-      alert("게시글이 등록되었습니다.");
+      const result = await createBoard({
+        variables: {
+          createBoardInput: {
+            /*
+            writer: writer,
+            password: password,
+            title: title,
+            contents: contents
+            객체에서 key와 value명이 같다면 생략가능(shorthand-property)*/
+            writer,
+            password,
+            title,
+            contents
+          }
+        }
+      })
+      console.log(result)
+      //alert("게시글이 등록되었습니다.");
     }
   }
 
