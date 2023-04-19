@@ -17,7 +17,9 @@ import {
   SubmitButton,
   Error
 } from '../../../styles/emotion'
+import Header from '../../blocks/header'
 import { gql, useMutation } from '@apollo/client'
+import { useRouter } from 'next/router'
 
 const CREATE_BOARD = gql`
   mutation createBoard($createBoardInput: CreateBoardInput!){
@@ -28,6 +30,8 @@ const CREATE_BOARD = gql`
 `
 
 export default function BoardNewPage() {
+  const router = useRouter();
+
   const [writer, setWriter] = useState("");
   const [password, setPassword] = useState("");
   const [title, setTitle] = useState("");
@@ -79,29 +83,34 @@ export default function BoardNewPage() {
       setContentsError("내용을 입력해주세요");
     }
     if(writer && password && title && contents){
-      const result = await createBoard({
-        variables: {
-          createBoardInput: {
-            /*
-            writer: writer,
-            password: password,
-            title: title,
-            contents: contents
-            객체에서 key와 value명이 같다면 생략가능(shorthand-property)*/
-            writer,
-            password,
-            title,
-            contents
+      try {
+        const result = await createBoard({
+          variables: {
+            createBoardInput: {
+              /*
+              writer: writer,
+              password: password,
+              title: title,
+              contents: contents
+              객체에서 key와 value명이 같다면 생략가능(shorthand-property)*/
+              writer,
+              password,
+              title,
+              contents
+            }
           }
-        }
-      })
-      console.log(result)
-      //alert("게시글이 등록되었습니다.");
+        })
+        console.log(result.data.createBoard._id)
+        alert("게시글이 등록되었습니다.", router.push(`/board/view/${result.data.createBoard._id}`));
+      } catch(error) {
+        console.log(error.message)
+      }
     }
   }
 
   return (
     <>
+      <Header></Header>
       <Container>
         <Wrapper>
           <Title>게시물 등록</Title>
