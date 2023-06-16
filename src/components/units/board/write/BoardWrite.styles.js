@@ -165,7 +165,7 @@ export const SubmitButton = styled.button`
   margin-right: 12px;
   cursor: pointer;
 
-  background-color: yellow;
+  background-color: ${props => props.isReq ? 'yellow': 'gray'};
 `;
 
 export const Error = styled.div`

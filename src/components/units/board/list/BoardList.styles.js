@@ -32,7 +32,12 @@ export const ColumnHeaderBasic = styled.div`
 `;
 
 export const ColumnHeaderTitle = styled.div`
-  width: 70%;
+  width: 60%;
+  text-align: center;
+`;
+
+export const ColumnHeaderDate = styled.div`
+  width: 20%;
   text-align: center;
 `;
 
@@ -42,13 +47,18 @@ export const ColumnBasic = styled.div`
 `;
 
 export const ColumnTitle = styled.div`
-  width: 70%;
+  width: 60%;
   text-align: center;
   cursor: pointer;
 
   :hover {
     color: blue;
   }
+`;
+
+export const ColumnDate = styled.div`
+  width: 20%;
+  text-align: center;
 `;
 
 export const Footer = styled.div`

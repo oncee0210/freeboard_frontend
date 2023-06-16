@@ -1,4 +1,5 @@
 import * as S from "./BoardList.styles";
+import { getDateTime } from '../../../../commons/utils/utils'
 
 export default function BoardListUI(props) {
   return (
@@ -8,20 +9,23 @@ export default function BoardListUI(props) {
         <S.ColumnHeaderBasic>ID</S.ColumnHeaderBasic>
         <S.ColumnHeaderTitle>제목</S.ColumnHeaderTitle>
         <S.ColumnHeaderBasic>작성자</S.ColumnHeaderBasic>
-        <S.ColumnHeaderBasic>날짜</S.ColumnHeaderBasic>
+        <S.ColumnHeaderDate>날짜</S.ColumnHeaderDate>
       </S.Row>
-      {props.data?.fetchBoards.map((el) => (
-        <S.Row key={el._id}>
-          <S.ColumnBasic>
-            {String(el._id).slice(-4).toUpperCase()}
-          </S.ColumnBasic>
-          <S.ColumnTitle id={el._id} onClick={props.onClickMoveToBoardDetail}>
-            {el.title}
-          </S.ColumnTitle>
-          <S.ColumnBasic>{el.writer}</S.ColumnBasic>
-          <S.ColumnBasic>{el.createdAt}</S.ColumnBasic>
-        </S.Row>
-      ))}
+      {props.data?.fetchBoards.map((el) => {
+          return (
+          <S.Row key={el._id}>
+            <S.ColumnBasic>
+              {String(el._id).slice(-4).toUpperCase()}
+            </S.ColumnBasic>
+            <S.ColumnTitle id={el._id} onClick={props.onClickMoveToBoardDetail}>
+              {el.title}
+            </S.ColumnTitle>
+            <S.ColumnBasic>{el.writer}</S.ColumnBasic>
+            <S.ColumnDate>{getDateTime(el.createdAt)}</S.ColumnDate>
+          </S.Row>
+          )
+        }
+      )}
       <S.TableBottom />
       <S.Footer>
         <S.Button onClick={props.onClickMoveToBoardNew}>

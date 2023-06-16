@@ -19,10 +19,18 @@ export default function BoardWrite(){
 
   const [createBoard] = useMutation(CREATE_BOARD)
 
+  let default_isReq = false;
+  const [isReq, setIsReq] = useState(default_isReq);
+
   const onChangeWriter = (event) => {
     setWriter(event.target.value);
     if(event.target.value !== ""){
       setWriterError("")
+    }
+    if(event.target.value && password && title && contents) {
+      setIsReq(true)
+    } else {
+      setIsReq(false)
     }
   };
 
@@ -31,6 +39,11 @@ export default function BoardWrite(){
     if(event.target.value !== ""){
       setPasswordError("")
     }
+    if(writer && event.target.value && title && contents) {
+      setIsReq(true)
+    } else {
+      setIsReq(false)
+    }
   };
 
   const onChangeTitle = (event) => {
@@ -38,12 +51,22 @@ export default function BoardWrite(){
     if(event.target.value !== ""){
       setTitleError("")
     }
+    if(writer && password && event.target.value && contents) {
+      setIsReq(true)
+    } else {
+      setIsReq(false)
+    }
   };
 
   const onChangeContents = (event) => {
     setContents(event.target.value);
     if(event.target.value !== ""){
       setContentsError("")
+    }
+    if(writer && password && title && event.target.value) {
+      setIsReq(true)
+    } else {
+      setIsReq(false)
     }
   };
 
@@ -91,6 +114,7 @@ export default function BoardWrite(){
         onChangeTitle={onChangeTitle}
         onChangeContents={onChangeContents}
         onClickSubmit={onClickSubmit}
+        isReq={isReq}
     />
   )
 }
